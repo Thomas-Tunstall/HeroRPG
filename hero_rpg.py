@@ -41,7 +41,7 @@ class Hero(Character):
         if othercharater.health <= 0:
             print(f"{othercharater.name} has been slain!") 
 
-    def crit(self):
+    def crit(self): ###Crit Bug Is somewhere around here###
         self.critDamage = 1
         critChance = random.randint(1, 5)
         if critChance == 5:
@@ -152,32 +152,32 @@ class Store:
         if store_status == 1:
             self.do_shopping(character)
 
-class Battle:
-    def battle_loop(self, PC, othercharater):
-        print("=====The Battle Begins=====")
-        print("{} takes on {}".format(PC.name, othercharater.name))
-        while PC.alive() and othercharater.alive():
-            print(PC.status())
-            print(othercharater.status())
-            print("======What will you do?=====")
-            print("1. Fight {}".format(othercharater.name))
-            print("2. Stand your ground... and do nothing")
-            print("3. Flee")
-            print("> ", end=' ')
-            userchoice = int(input())
-            if userchoice == 1:
-                PC.attack(othercharater)
-                othercharater.attack(PC)
-            if userchoice == 2:
-                pass
-            if userchoice == 3:
-                print("Terminating your experience")
-        if PC.alive():
-            print("You have slain {}.".format(othercharater.name))
-            return True
-        else:
-            print("You have been slain!")
-            return False        
+# class Battle:
+#     def battle_loop(self, PC, othercharater):
+#         print("=====The Battle Begins=====")
+#         print("{} takes on {}".format(PC.name, othercharater.name))
+#         while PC.alive() and othercharater.alive():
+#             print(PC.status())
+#             print(othercharater.status())
+#             print("======What will you do?=====")
+#             print("1. Fight {}".format(othercharater.name))
+#             print("2. Stand your ground... and do nothing")
+#             print("3. Flee")
+#             print("> ", end=' ')
+#             userchoice = int(input())
+#             if userchoice == 1:
+#                 PC.attack(othercharater)
+#                 othercharater.attack(PC)
+#             if userchoice == 2:
+#                 pass
+#             if userchoice == 3:
+#                 print("Terminating your experience")
+#         if PC.alive():
+#             print("You have slain {}.".format(othercharater.name))
+#             return True
+#         else:
+#             print("You have been slain!")
+#             return False        
 
 spiderman = Hero(100, 6, "Spiderman the Great", 5)
 goblinman = Goblin(20, 5, "Goblinman the Foul", 3)
