@@ -10,10 +10,12 @@ import random
 import time
 
 class Character:
-    def __init__(self, health, power, name):
+    def __init__(self, health, power, name, coins):
         self.health = health
         self.power = power
         self.name = name
+        self.coins = coins
+        self.armor = 0
 
     def attack(self, othercharater): #module
         othercharater.health -= self.power
@@ -33,7 +35,7 @@ class Character:
 
 class Hero(Character):
     def attack(self, othercharater):
-        self.damage = self.power * self.crit()
+        self.damage = self.power * self.crit() - othercharater.armor
         othercharater.health -= self.damage
         print(f"{self.name} has dealt {self.damage} to {othercharater.name}")
         if othercharater.health <= 0:
@@ -49,6 +51,10 @@ class Hero(Character):
         else:
             self.critDamage = 1
             return self.critDamage
+
+    def buy(self, item):
+        self.coins -= item.cost
+        item.apply(self)
 
 class Goblin(Character):
     pass
@@ -70,9 +76,9 @@ class Shade(Character):
         if dodgeChance == 10:
             self.health -= othercharater.power
             print("{} do {} damage to the {}.".format(self.name, self.power, othercharater.name))
+        else:
             if othercharater.health <= 0:
                 print("{} has been slain!".format(othercharater.name))
-        else:
             othercharater.power = 0
             print("{} swung and {} nimbly dodged the strike!".format(othercharater.name, self.name))
 
@@ -84,10 +90,67 @@ class Barbarian(Character):
         if othercharater.health <= 0:
             print("{} has been slain!".format(othercharater.name))
 
+class SuperTonic:
+    def __init__(self):
+        self.cost = 3
+        self.name = "tonic"
+    def apply(self, character):
+        character.health += 10
+        print("Your health has increased by 10!")
 
+class Armor:
+    def __init__(self):
+        self.cost = 7
+        self.name = "armor"
+    def apply(self, character):
+        character.armor += 2
+        print("Your character's armor has increased by 2!")
 
+class Longsword:
+    def __init__(self):
+        self.cost = 13
+        self.name = "Longsword"
+    def apply(self, character):
+        character.power += 5
+        print("Your character's power has increased by 5!")
 
+class SSJ:
+    def __init__(self):
+        self.cost = 30
+        self.name = "SuperSayin"
+    def apply(self, character):
+        character.power *= 1.75
+        print("Your character lets out a primal roar, their hair pulsates and turns into golden. You are far more powerful now")
 
+class Store:
+    tonic = SuperTonic()
+    armor = Armor()
+    longsword = Longsword()
+    supersayin = SSJ()
+    items = [tonic, armor, longsword, supersayin]
+    def do_shopping(self, PC):
+        while True:
+            print("=====================")
+            print("Welcome to the store!")
+            print("=====================")
+            print("You have {} coins.".format(PC.coins))
+            print("What do you want to do?")
+            for i in range(len(self.items)):
+                item = self.items[i]
+                print("{}. buy {} ({})".format(i + 1, item.name, item.cost))
+            print("10. leave")
+            raw_imp = int(input("> "))
+            if raw_imp == 10:
+                break
+            else:
+                ItemToBuy = Store.items[raw_imp - 1]
+                item = ItemToBuy
+                PC.buy(item)
+    def go_shopping(self, character):
+        store_status = int(input("""1. Enter the store. 
+    Press another number to battle."""))
+        if store_status == 1:
+            self.do_shopping(character)
 
 class Battle:
     def battle_loop(self, PC, othercharater):
@@ -116,23 +179,20 @@ class Battle:
             print("You have been slain!")
             return False        
 
-
-spiderman = Hero(100, 6, "Spiderman the Great")
-goblinman = Goblin(20, 5, "Goblinman the Foul")
-zombieman = Zombie(0, 7, "Zombieman the Invincible")
-effinghealer = Medic(30, 6, "Leeroy Jenkins the NotMedic")
-shadman = Shade(1, 6, "Sylvannas the Tormented")
-barbyman = Barbarian(42, 0, "Barbarossa the Forsaken")
+spiderman = Hero(100, 6, "Spiderman the Great", 5)
+goblinman = Goblin(20, 5, "Goblinman the Foul", 3)
+zombieman = Zombie(0, 7, "Zombieman the Invincible", 1000)
+effinghealer = Medic(30, 6, "Leeroy Jenkins the NotMedic", 11)
+shademan = Shade(1, 6, "Sylvannas the Tormented", 14)
+barbyman = Barbarian(42, 0, "Barbarossa the Forsaken", 22)
+store = Store()
 
 
 def main():
-
-
-
     while spiderman.alive() and goblinman.alive():
         print(spiderman.status())
         print(goblinman.status())
-        print()
+        print("...before you {} appraoches...".format(goblinman.name))
         print("What do you want to do?")
         print("1. fight enemy")
         print("2. do nothing")
@@ -151,6 +211,10 @@ def main():
 
         if goblinman.health > 0:
             goblinman.attack(spiderman)
+
+
+    store.go_shopping(spiderman)
+
 
     while spiderman.alive() and effinghealer.alive():
         print(spiderman.status())
@@ -175,85 +239,57 @@ def main():
         if effinghealer.health > 0:
             effinghealer.attack(spiderman)
 
+    store.go_shopping(spiderman)
+
+    while spiderman.alive() and shademan.alive():
+        print(spiderman.status())
+        print(shademan.status())
+        print()
+        print("What do you want to do?")
+        print("1. fight enemy")
+        print("2. do nothing")
+        print("3. flee")
+        print("> ", end=' ')
+        raw_input = input()
+        if raw_input == "1":
+            spiderman.attack(shademan)
+        elif raw_input == "2":
+            pass
+        elif raw_input == "3":
+            print("Goodbye.")
+            break
+        else:
+            print("Invalid input {}".format(raw_input))
+
+        if shademan.health > 0:
+            shademan.attack(spiderman)
+
+    store.go_shopping(spiderman)
+
+    while spiderman.alive() and barbyman.alive():
+        print(spiderman.status())
+        print(barbyman.status())
+        print()
+        print("What do you want to do?")
+        print("1. fight enemy")
+        print("2. do nothing")
+        print("3. flee")
+        print("> ", end=' ')
+        raw_input = input()
+        if raw_input == "1":
+            spiderman.attack(barbyman)
+        elif raw_input == "2":
+            pass
+        elif raw_input == "3":
+            print("Goodbye.")
+            break
+        else:
+            print("Invalid input {}".format(raw_input))
+
+        if barbyman.health > 0:
+            barbyman.attack(spiderman)    
+
+    store.go_shopping(spiderman)
+
+
 main()
-
-
-
-# def main():
-
-
-
-#     while spiderman.health > 0 and goblinman.health > 0:
-#         print("You have {} health and {} power.".format(spiderman.health, spiderman.power))
-#         print("The goblin has {} health and {} power.".format(goblinman.health, goblinman.power))
-#         print()
-#         print("What do you want to do?")
-#         print("1. fight goblin")
-#         print("2. do nothing")
-#         print("3. flee")
-#         print("> ", end=' ')
-#         raw_input = input()
-#         if raw_input == "1":
-#             # spiderman attacks goblin
-#             spiderman.health -= goblinman.power
-#             if goblinman.health <= 0:
-#                 print("The goblin is dead.")
-#             # Hero.attack(Goblin)
-#         elif raw_input == "2":
-#             pass
-#         elif raw_input == "3":
-#             print("Goodbye.")
-#             break
-#         else:
-#             print("Invalid input {}".format(raw_input))
-
-#         if goblinman.health > 0:
-#             # Goblin attacks hero
-#             goblinman.health -= spiderman.power
-#             print("The goblin does {} damage to you.".format(goblinman.power))
-#             if spiderman.health <= 0:
-#                 print("You are dead.")
-
-# class Hero:                                             #Hero Class
-#     def __init__(self, health, power):
-#         self.health = health
-#         self.power = power
-        
-#     def attack(self, othercharater): #module
-#         othercharater.health -= self.power
-#         print("You do {} damage to the goblin.".format(self.power))
-
-#     def alive(self):
-#         while self.health > 0:
-#             return True
-#         else:
-#             return False
-
-#     def status(self):
-#          print("The goblin has {} health and {} power.".format(spiderman.health, spiderman.power))
-
-        
-
-# class Goblin:                                           #Goblin Class
-#     def __init__(self, health, power): 
-#         self.health = health
-#         self.power = power
-    
-#     def attack(self, othercharater): #module
-#         othercharater.health -= self.power
-#         print("The goblin does {} damage to you.".format(self.power))
-    
-#     def alive(self):
-#         if self.health > 0:
-#             return True
-#         else:
-#             return False
-    
-#     def status(self):
-#         print("The goblin has {} health and {} power.".format(goblinman.health, goblinman.power))
-
-
-# def __init__(self, damage, critDamage, health, power, name):
-    #     self.damage = damage
-    #     self.critDamage = critDamage
-    #     super(Hero, self).__init__(health, power, name)
