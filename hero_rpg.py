@@ -132,7 +132,7 @@ class TheBridgekeeper(Character):
 
 class SuperTonic:
     def __init__(self):
-        self.cost = 3
+        self.cost = 10
         self.name = "Tonic of Restoration"
     def apply(self, character):
         character.health += 25
@@ -140,7 +140,7 @@ class SuperTonic:
 
 class Armor:
     def __init__(self):
-        self.cost = 7
+        self.cost = 10
         self.name = "Plate Armor"
     def apply(self, character):
         character.armor += 4
@@ -148,7 +148,7 @@ class Armor:
 
 class Longsword:
     def __init__(self):
-        self.cost = 13
+        self.cost = 40
         self.name = "Longsword"
     def apply(self, character):
         character.power += 15
@@ -158,7 +158,7 @@ class Longsword:
 
 class SSJ:
     def __init__(self):
-        self.cost = 50
+        self.cost = 125
         self.name = "SSJ"
     def apply(self, character):
         character.power *= 3.5
@@ -166,11 +166,11 @@ class SSJ:
         sleep(1)
         print("Something has awoken inside of you. You are FAR more powerful now\n")
 
-class Scouter: #Not Functioning Yet
+class Scouter:
     def __init__(self):
         self.cost = 5
         self.name = "Scouter-Glass"
-    def apply(self, character): #Enabling the scouter doesn't work
+    def apply(self, character):
         global displayStatus
         displayStatus = True
         print("Your character can now view the power and health of themselves and your foe")
@@ -186,9 +186,9 @@ class Store:
         sleep(1)
         print("You walk forward, a small hut stands before you\n")
         sleep(2)
-        print("A small hermit pokes his head out and speaks to you\n")
+        print("A small hermit pokes his head\n")
         sleep(2)
-        print("Greetings Noble Spiderman! I have wares, if you have coin!\n")
+        print("Greetings {}! I have wares, if you have coin!\n".format(spiderman.name))
         sleep(2)
         while True:    
             print("What do you want to do?")
@@ -216,13 +216,13 @@ class Store:
             self.do_shopping(character)     
 
 # Obj name = Class(HP, Power, Name, Money, Armor)
-spiderman = Hero(100, 12, "Spiderman the Great", 5, 0)
-goblinman = Goblin(30, 9, "Goblinman the Foul", 8, 0)
-zombieman = Zombie(50, 7, "Zombieman the Invincible", 1000, 4)
-effinghealer = Medic(100, 6, "Leeroy Jenkins the Anti-Medic", 11, 3)
-shademan = Shade(1, 6, "Sylvannas the Tormented", 14, 0)
-barbyman = Barbarian(150, 0, "Barbarossa the Forsaken", 22, 2)
-bridgeboi = TheBridgekeeper(500, 75, "The Legendary Bridgekeeper of Kazadum", 9000, 15)
+spiderman = Hero(100, 12, "Spiderman the Great", 10, 0)
+goblinman = Goblin(30, 9, "Goblinman the Foul", 15, 0)
+zombieman = Zombie(50, 7, "Zombieman the Invincible", 25, 4)
+effinghealer = Medic(100, 13, "Leeroy Jenkins the Anti-Medic", 35, 3)
+shademan = Shade(1, 18, "Sylvannas the Tormented", 50, 0)
+barbyman = Barbarian(150, 0, "Barbarossa the Forsaken", 75, 2)
+bridgeboi = TheBridgekeeper(500, 75, "The Legendary Bridgekeeper of Kazadum", 9000, 5)
 store = Store()
 
 def main():
@@ -230,7 +230,7 @@ def main():
     sleep(1)
     print("A tree in front of you rustles and a small goblin bursts into the clearling\n")
     sleep(1)
-    print("{} appraoches you".format(goblinman.name))
+    print("{} appraoches you\n".format(goblinman.name))
     if displayStatus == True:
         print(spiderman.status())
         print(goblinman.status())
@@ -249,7 +249,7 @@ def main():
         elif raw_input == "2":
             pass
         elif raw_input == "3":
-            print("You flee from {}.".format(goblinman.name))
+            print("You flee from {}.\n".format(goblinman.name))
             sleep(1)
             print("Wow, seriously? You fled from the pipsqeuak {}?\n".format(goblinman.name))
             sleep(1)
@@ -403,7 +403,7 @@ def main():
     sleep(1)
     print("You can feel the warmth in your face drain away- this is a foul creature\n")
     sleep(1)
-    print("You can hear it faintly orating something, but you cannot quite make out what\n")
+    print("You can hear it faintly whispering something, but you cannot quite make out what...\n")
     if displayStatus == True:
         print(spiderman.status())
         print(shademan.status())
@@ -598,9 +598,9 @@ def main():
                             if raw_input == "1":
                                 print("Once again you are correct!\n")
                                 sleep(2)
-                                print("You have answered all my questions correctly, you may pass on")
+                                print("You have answered all my questions correctly, you may pass on\n")
                                 sleep(1)
-                                print("{} motions you across".format(bridgeboi.name))
+                                print("{} motions you across\n".format(bridgeboi.name))
                                 break
                             else:
                                 print("WRONG!")
