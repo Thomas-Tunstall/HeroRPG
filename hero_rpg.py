@@ -2,9 +2,18 @@
 import random
 from time import sleep
 
+#Ideas for next version
+#Scouter Update
+#Add evade function
+#Expand options on Goblin
+#Add depth to first question
+#Add a shield with a parry function on a random chance roll
+
+###Import all enemies into a list and make them fight at a random chance
+
 global displayStatus 
 displayStatus = False #This is the variable to enable the scouter
-
+#Idea - make the scouter work as an options menu, instead of displaying before each combat phase
 
 class Character:
     def __init__(self, health, power, name, coins, armor):
@@ -27,7 +36,7 @@ class Character:
             return False
 
     def status(self):
-         print("{} has {} health and {} power.".format(self.name, self.health, self.power))
+        print("{} has {} health and {} power.".format(self.name, self.health, self.power))
 
     def setHealth(self, health):
         self.health = health 
@@ -242,6 +251,7 @@ def main():
         print("1. Fight {}".format(goblinman.name))
         print("2. Do Nothing")
         print("3. Flee from {}".format(goblinman.name))
+        print("4. Speak with {}.".format(goblinman.name))
         print("> ", end=' ')
         raw_input = input()
         if raw_input == "1": 
@@ -254,6 +264,16 @@ def main():
             print("Wow, seriously? You fled from the pipsqeuak {}?\n".format(goblinman.name))
             sleep(1)
             break
+        elif raw_input == "4":
+            print("You move closer to {} and attempt to speak with it\n".format(goblinman.name))
+            sleep(1)
+            moneyStolen = random.randint(1,5)
+            spiderman.money -= moneyStolen.goblinman.money
+            print("As you attempt to communicate, {} leaps at you and steals {} pieces of your gold!\n".format(goblinman.name, moneyStolen))
+            sleep(1)
+            print("As this happens, you notice a red skull with a blue sickle on the back of {}\n".format(goblinman.name))
+            sleep(1)
+            print("You feel like this is important, but you are not sure why\n")
         else:
             print("Invalid input {}".format(raw_input))
 
@@ -570,20 +590,20 @@ def main():
                     sleep(1)
                     print("I see you are not as dumb as you look, very well\n")
                     sleep(1)
-                    print("Question 1! Who was the first enemy you fought?\n")
+                    print("Question 1! What emblem did {} bear?\n".format(goblinman.name))
                     sleep(1)
-                    print("1. Goblinman the Foul")
-                    print("2. Goblinman the Wretched")
-                    print("3. Goblinman the Complacent")
+                    print("1. Red Skull with a Blue Sickle")
+                    print("2. Black Cross with a Red Sword")
+                    print("3. White Shield with a Purple Lance")
                     raw_input = input()
                     if raw_input == "1":
                         sleep(1)
                         print("You are correct, next question...\n")
                         sleep(1)
                         print("Question 2! What glpyh did {} bear?\n".format(zombieman.name))
-                        print("1. A deer")
-                        print("2. A phoenix")
-                        print("3. A snake")
+                        print("1. A Deer")
+                        print("2. A Phoenix")
+                        print("3. A Snake")
                         raw_input = input()
                         if raw_input == "2":
                             sleep(1)
@@ -631,9 +651,11 @@ def main():
                 print("Despite the odds, you managed to slay {}".format(bridgeboi.name))
                 sleep(2)    
 
-    print("You emerge on the other side of the bridge")
+    print("You emerge on the other side of the bridge\n")
     sleep(2)
-    print("YOU ARE VICTORIOUS")
+    print("You have overcome every foe that you faced, and emerged triumphant!")
+    sleep(2)
+    print("YOU ARE VICTORIOUS\n")
     sleep(5)
     print("""
         
