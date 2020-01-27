@@ -1,13 +1,10 @@
-#!/usr/bin/env python
-
-# In this simple RPG game, the hero fights the goblin. He has the options to:
-
-# 1. fight goblin
-# 2. do nothing - in which case the goblin will attack him anyway
-# 3. flee
 
 import random
 from time import sleep
+
+global displayStatus 
+displayStatus = False #This is the variable to enable the scouter
+
 
 class Character:
     def __init__(self, health, power, name, coins, armor):
@@ -141,12 +138,13 @@ class SSJ:
         character.power *= 3.5
         print("Your character lets out a primal roar, their hair pulsates and turns into golden. You are far more powerful now")
 
-class Scouter:
+class Scouter: #Not Functioning Yet
     def __init__(self):
         self.cost = 3
         self.name = "Scouter-Glass"
     def apply(self, character): #Enabling the scouter doesn't work
-        displayStatus == True
+        nonlocal displayStatus
+        displayStatus = True
         print("Your character can now view the power and health of themselves and your foe")
 
 class Store:
@@ -223,8 +221,6 @@ shademan = Shade(1, 6, "Sylvannas the Tormented", 14, 0)
 barbyman = Barbarian(60, 0, "Barbarossa the Forsaken", 22, 2)
 bridgeboi = TheBridgekeeper(1000000, 9001, "The Legendary Bridgekeeper of Kazadum", 9000, 9000)
 store = Store()
-
-displayStatus = False #This is the variable to enable the scouter
 
 def main():
     print("You stand alone, in the middle of a lightly dense forest of pine trees\n")
@@ -367,6 +363,9 @@ def main():
 
     store.go_shopping(spiderman)
 
+    print("Out of the treeline, a ghastly shade approaches")
+    sleep(1)
+    print("The shade is as black as the night sky")
     print(spiderman.status())
     print(shademan.status())
     sleep(1)
