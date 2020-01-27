@@ -1,19 +1,16 @@
 
-import random
+import random 
 from time import sleep
 
 #Ideas for next version
-#Scouter Update
 #Add evade function
-#Expand options on Goblin
-#Add depth to first question
 #Add a shield with a parry function on a random chance roll
 
 ###Import all enemies into a list and make them fight at a random chance
 
 global displayStatus 
 displayStatus = False #This is the variable to enable the scouter
-#Idea - make the scouter work as an options menu, instead of displaying before each combat phase
+
 
 class Character:
     def __init__(self, health, power, name, coins, armor):
@@ -63,6 +60,7 @@ class Hero(Character):
         else:
             sleep(2)
             print("You have beeen slain!")
+            exit()
             return False
 
     def crit(self): ###Crit Bug Is somewhere around here###
@@ -97,8 +95,6 @@ class Zombie(Character):
         return
 
 
-    
-
 class Medic(Character):
     def __init__(self, power, health, name, coins, armor):
         super().__init__(power, health, name, coins, armor)
@@ -113,16 +109,16 @@ class Shade(Character):
     def __init__(self, power, health, name, coins, armor):
         super().__init__(power, health, name, coins, armor)
 
-    def ghastly(self, othercharacter):
-        dodgeChance = random.randint(1, 10)
-        if dodgeChance == 10:
-            self.health -= othercharacter.power
-            print("{} do {} damage to the {}.".format(self.name, self.power, othercharacter.name))
-        else:
-            if othercharacter.health <= 0:
-                print("{} has been slain!".format(othercharacter.name))
-            othercharacter.power = 0
-            print("{} swung and {} nimbly dodged the strike!".format(othercharacter.name, self.name))
+    # def ghastly(self, othercharacter):
+    #     dodgeChance = random.randint(1, 10)
+    #     if dodgeChance == 10:
+    #         self.health -= othercharacter.power
+    #         print("{} do {} damage to the {}.".format(self.name, self.power, othercharacter.name))
+    #     else:
+    #         if othercharacter.health <= 0:
+    #             print("{} has been slain!".format(othercharacter.name))
+    #         othercharacter.power = 0
+    #         print("{} swung and {} nimbly dodged the strike!".format(othercharacter.name, self.name))
 
 class Barbarian(Character):
     def __init__(self, power, health, name, coins, armor):
@@ -158,7 +154,7 @@ class Armor:
 class Longsword:
     def __init__(self):
         self.cost = 40
-        self.name = "Longsword"
+        self.name = "Longsword of Dathmire"
     def apply(self, character):
         character.power += 15
         print("This sword looks like it can do some serious damage!\n")
@@ -170,7 +166,7 @@ class SSJ:
         self.cost = 125
         self.name = "SSJ"
     def apply(self, character):
-        character.power *= 3.5
+        character.power *= 3
         print("Your character lets out a primal roar, their hair pulsates and turns into golden.\n")
         sleep(1)
         print("Something has awoken inside of you. You are FAR more powerful now\n")
@@ -237,21 +233,19 @@ store = Store()
 def main():
     print("You stand alone, in the middle of a lightly dense forest of pine trees\n")
     sleep(1)
+    print("You have no idea where you are, but you feel like you need to get out of this place as soon as you can\n")
+    sleep(1)
     print("A tree in front of you rustles and a small goblin bursts into the clearling\n")
     sleep(1)
     print("{} appraoches you\n".format(goblinman.name))
-    if displayStatus == True:
-        print(spiderman.status())
-        print(goblinman.status())
-        sleep(1)
-    else:
-        pass
     while spiderman.alive() and goblinman.alive():
         print("What do you want to do?")
         print("1. Fight {}".format(goblinman.name))
         print("2. Do Nothing")
         print("3. Flee from {}".format(goblinman.name))
         print("4. Speak with {}.".format(goblinman.name))
+        if displayStatus == True:
+            print("5. Initialize scouter")
         print("> ", end=' ')
         raw_input = input()
         if raw_input == "1": 
@@ -268,12 +262,18 @@ def main():
             print("You move closer to {} and attempt to speak with it\n".format(goblinman.name))
             sleep(1)
             moneyStolen = random.randint(1,5)
-            spiderman.money -= moneyStolen.goblinman.money
+            spiderman.coins -= moneyStolen
+            moneyStolen += goblinman.coins
             print("As you attempt to communicate, {} leaps at you and steals {} pieces of your gold!\n".format(goblinman.name, moneyStolen))
             sleep(1)
             print("As this happens, you notice a red skull with a blue sickle on the back of {}\n".format(goblinman.name))
             sleep(1)
             print("You feel like this is important, but you are not sure why\n")
+        elif raw_input == "5":
+            if displayStatus == True:
+                print(spiderman.status())
+                print(goblinman.status())
+                sleep(1)
         else:
             print("Invalid input {}".format(raw_input))
 
@@ -289,19 +289,14 @@ def main():
     sleep(1)
     print("You sense that this is a foe that you cannot defeat by conventional means\n")
     sleep(3)
-    if displayStatus == True:
-        print(spiderman.status())
-        print(zombieman.status())
-        sleep(1)
-    else:
-        pass
-    sleep(1.5)
     while spiderman.alive() and zombieman.alive():    
         print("What do you want to do?")
         print("1. Fight {}".format(zombieman.name))
         print("2. Do nothing")
         print("3. Flee from {}".format(zombieman.name))
         print("4. Inspect {} more closely".format(zombieman.name))
+        if displayStatus == True:
+            print("5. Initialize scouter")
         print("> ", end=' ')
         raw_input = input()
         if raw_input == "1":
@@ -347,12 +342,15 @@ def main():
                     print("Failure! {} overpowers you and swipes at you\n".format(zombieman.name))
             elif raw_input == "2":
                 break        
-
+        elif raw_input == "5":
+            if displayStatus == True:
+                print(spiderman.status())
+                print(zombieman.status())
+                sleep(1)
 
         else:
             print("Invalid input {}".format(raw_input))
-
-            # zombieman.health >= 0:      
+     
         if zombieman.health > 0:
             zombieman.attack(spiderman)
 
@@ -363,19 +361,14 @@ def main():
     print("My name is {}, and I have no quarrel with you\n".format(effinghealer.name))
     sleep(1)
     print("That said, I will defend myself should you attack me\n")
-    if displayStatus == True:
-        print(spiderman.status())
-        print(effinghealer.status())
-        sleep(1)
-    else:
-        pass
-    sleep(0.1)
     while spiderman.alive() and effinghealer.alive():
         print("What do you want to do?")
         print("1. Fight {}".format(effinghealer.name))
         print("2. Do Nothing")
         print("3. Flee from {}".format(effinghealer.name))
         print("4. Speak with {}".format(effinghealer.name))
+        if displayStatus == True:
+            print("5. Initialize scouter")
         print("> ", end=' ')
         raw_input = input()
         if raw_input == "1":
@@ -408,6 +401,13 @@ def main():
                 break
             else:
                 pass
+
+        elif raw_input == "5":
+            if displayStatus == True:
+                print(spiderman.status())
+                print(effinghealer.status())
+                sleep(1)
+
         else:
             print("Invalid input {}".format(raw_input))
 
@@ -424,12 +424,6 @@ def main():
     print("You can feel the warmth in your face drain away- this is a foul creature\n")
     sleep(1)
     print("You can hear it faintly whispering something, but you cannot quite make out what...\n")
-    if displayStatus == True:
-        print(spiderman.status())
-        print(shademan.status())
-        sleep(1)
-    else:
-        pass
     sleep(1)
     while spiderman.alive() and shademan.alive():    
         print("What do you want to do?")
@@ -437,6 +431,8 @@ def main():
         print("2. Do nothing")
         print("3. Flee from {}".format(shademan.name))
         print("4. Listen to {}".format(shademan.name))
+        if displayStatus == True:
+            print("5. Initialize scouter")
         print("> ", end=' ')
         raw_input = input()
         if raw_input == "1":
@@ -479,9 +475,15 @@ def main():
                 print("You leap back out of range of the shade\n")
             else:
                 pass
+        elif raw_input == "5":
+            if displayStatus == True:
+                print(spiderman.status())
+                print(shademan.status())
+                sleep(1)
+        
         else:
             print("Invalid input {}".format(raw_input))
-
+        
         if shademan.health > 0:
             shademan.attack(spiderman)
 
@@ -499,17 +501,13 @@ def main():
     sleep(1)
     print("He charges toward you with fury burning in his eyes\n")
     while spiderman.alive() and barbyman.alive():
-        if displayStatus == True:
-            print(spiderman.status())
-            print(barbyman.status())
-            sleep(1)
-        else:
-            pass
         print("What do you want to do?")
         print("1. Fight {}".format(barbyman.name))
         print("2. Do nothing")
         print("3. Flee from {}".format(barbyman.name))
         print("4. Speak with {}".format(barbyman.name))
+        if displayStatus == True:
+            print("5. Initialize scouter")
         print("> ", end=' ')
         raw_input = input()
         if raw_input == "1":
@@ -528,7 +526,12 @@ def main():
             sleep(1)
             print("{} is not one to be reasoned with")
             barbyman.attack(spiderman)
-            
+
+        elif raw_input == "5":
+            if displayStatus == True:
+                print(spiderman.status())
+                print(barbyman.status())
+                sleep(1)    
         else:
             print("Invalid input {}".format(raw_input))
 
@@ -562,16 +565,12 @@ def main():
 
 
     while spiderman.alive() and bridgeboi.alive():
-        if displayStatus == True:
-            print(spiderman.status())
-            print(barbyman.status())
-            sleep(1)
-        else:
-            pass
             print("What do you want to do?")
             print("1. Fight {}".format(bridgeboi.name))
             print("2. Do nothing")
             print("3. Flee from {}".format(bridgeboi.name))
+            if displayStatus == True:
+                print("4: Initialize Scouter")
             print("> ", end=' ')
             raw_input = input()
             if raw_input == "1":
@@ -641,19 +640,24 @@ def main():
                 print("You've come too far, there's no turning back now.\n")
                 sleep(1)
                 pass
+            elif raw_input == "4":
+                if displayStatus == True:
+                    print(spiderman.status())
+                    print("You tap your scouter, but you cannot get a tactical readout on {}\n".format(bridgeboi.name))
+                    sleep(1)
             else:
                 print("Invalid input {}".format(raw_input))
 
             if bridgeboi.health > 0:
                 bridgeboi.attack(spiderman)
 
-            if bridgeboi.health < 0:
+            if bridgeboi.health <= 0:
                 print("Despite the odds, you managed to slay {}".format(bridgeboi.name))
                 sleep(2)    
 
     print("You emerge on the other side of the bridge\n")
     sleep(2)
-    print("You have overcome every foe that you faced, and emerged triumphant!")
+    print("You have overcome every obstacle that you faced, and emerged triumphant!")
     sleep(2)
     print("YOU ARE VICTORIOUS\n")
     sleep(5)
