@@ -1,12 +1,11 @@
 
 import random 
 from time import sleep
+import hero_rpgART
 
 #Ideas for next version
 #Add evade function
 #Add a shield with a parry function on a random chance roll
-
-###Import all enemies into a list and make them fight at a random chance
 
 global displayStatus 
 displayStatus = False #This is the variable to enable the scouter
@@ -63,7 +62,7 @@ class Hero(Character):
             exit()
             return False
 
-    def crit(self): ###Crit Bug Is somewhere around here###
+    def crit(self):
         self.critDamage = 1
         critChance = random.randint(1, 5)
         if critChance == 2:
@@ -238,6 +237,8 @@ def main():
     print("A tree in front of you rustles and a small goblin bursts into the clearling\n")
     sleep(1)
     print("{} appraoches you\n".format(goblinman.name))
+    sleep(2)
+    hero_rpgART.goblinArt()
     while spiderman.alive() and goblinman.alive():
         print("What do you want to do?")
         print("1. Fight {}".format(goblinman.name))
@@ -288,7 +289,8 @@ def main():
     print("{} appraoches\n".format(zombieman.name))
     sleep(1)
     print("You sense that this is a foe that you cannot defeat by conventional means\n")
-    sleep(3)
+    sleep(2)
+    hero_rpgART.zombieArt()
     while spiderman.alive() and zombieman.alive():    
         print("What do you want to do?")
         print("1. Fight {}".format(zombieman.name))
@@ -361,6 +363,7 @@ def main():
     print("My name is {}, and I have no quarrel with you\n".format(effinghealer.name))
     sleep(1)
     print("That said, I will defend myself should you attack me\n")
+    hero_rpgART.medicArt()
     while spiderman.alive() and effinghealer.alive():
         print("What do you want to do?")
         print("1. Fight {}".format(effinghealer.name))
@@ -391,7 +394,7 @@ def main():
             raw_input = input()
             if raw_input == "1":
                 spiderman.health = 300
-                spiderman.money = 0
+                spiderman.coins = 0
                 sleep(2)
                 print("{} raises his hands and radiates a golden energy which floats from him to you\n".format(effinghealer.name))
                 sleep(1)
@@ -425,6 +428,7 @@ def main():
     sleep(1)
     print("You can hear it faintly whispering something, but you cannot quite make out what...\n")
     sleep(1)
+    hero_rpgART.shadeArt()
     while spiderman.alive() and shademan.alive():    
         print("What do you want to do?")
         print("1. Fight {}".format(shademan.name))
@@ -500,6 +504,8 @@ def main():
     print("THIS IS MY FOREST, YOU WILL NOT DISTUB MY HOME\n")
     sleep(1)
     print("He charges toward you with fury burning in his eyes\n")
+    sleep(1)
+    hero_rpgART.barbarianArt()
     while spiderman.alive() and barbyman.alive():
         print("What do you want to do?")
         print("1. Fight {}".format(barbyman.name))
@@ -544,8 +550,10 @@ def main():
     sleep(1)
     print("A massive canyon looms before you\n")
     sleep(1)
-    print("Spanning the chasm, is a fifty foot long bridge, supported by ropes along the sides\n")
-    sleep(1)
+    print("Spanning the chasm, is a fifty foot long bridge, stone pillars reaching down into the chasm below\n")
+    sleep(3)
+    hero_rpgART.bridgeArt()
+    sleep(3)
     print("As you approach, you see an old man standing at the front of the bridge\n")
     sleep(1)
     print("The man is covered in a red and black robe, his eyes glitter an emerald green\n")
@@ -574,6 +582,7 @@ def main():
             print("> ", end=' ')
             raw_input = input()
             if raw_input == "1":
+                hero_rpgART.bossArt()
                 print("You intend to fight me? I'm warning you, you stand no chane against me\n")
                 sleep(1)
                 print("I will give you the chance to test your wits instead of your might\n")
