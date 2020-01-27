@@ -29,16 +29,32 @@ class Character:
     def status(self):
          print("{} has {} health and {} power.".format(self.name, self.health, self.power))
 
+    def setHealth(self, health):
+        self.health = health 
+
+    def getHealth(self):
+        return self.health
 
 class Hero(Character):
+    def __init__(self, power, health, name, coins, armor):
+        super().__init__(power, health, name, coins, armor)
+
     def attack(self, othercharater):
         self.damage = self.power * self.crit() - othercharater.armor
-        othercharater.health -= self.damage
+        setHealth(self.damage)
         print(f"{self.name} has dealt {self.damage} to {othercharater.name}")
         if othercharater.health <= 0:
             print(f"{othercharater.name} has been slain!")
             self.coins += othercharater.coins
             print(f"You loot through the body of {othercharater.name} and scavange up {othercharater.coins} coins from their dead corpse")
+    # def attack(self, othercharater):
+    #     self.damage = self.power * self.crit() - othercharater.armor
+    #     othercharater.health -= self.damage
+    #     print(f"{self.name} has dealt {self.damage} to {othercharater.name}")
+    #     if othercharater.health <= 0:
+    #         print(f"{othercharater.name} has been slain!")
+    #         self.coins += othercharater.coins
+    #         print(f"You loot through the body of {othercharater.name} and scavange up {othercharater.coins} coins from their dead corpse")
     
     def alive(self):
         while self.health > 0:
@@ -71,25 +87,30 @@ class Goblin(Character):
 
 class Zombie(Character):
     def __init__(self, power, health, name, coins, armor):
-        super(Zombie, self).__init__(power, health, name, coins, armor)
+        super().__init__(power, health, name, coins, armor)
     
     def alive(self):
         return True
+
+    def setHealth(self, health):
+        return
+
+
     
 
 class Medic(Character):
     def __init__(self, power, health, name, coins, armor):
-        super(Medic, self).__init__(power, health, name, coins, armor)
+        super().__init__(power, health, name, coins, armor)
 
     def heal(self):
         healChance = random.randint(1, 5)
         if healChance == 5:
-            self.health += 2
+            self.health += 8
             print('Blessed by RNGsus, the Medic has healed itself by 2!')
 
 class Shade(Character):
     def __init__(self, power, health, name, coins, armor):
-        super(Shade, self).__init__(power, health, name, coins, armor)
+        super().__init__(power, health, name, coins, armor)
 
     def ghastly(self, othercharater):
         dodgeChance = random.randint(1, 10)
@@ -104,7 +125,7 @@ class Shade(Character):
 
 class Barbarian(Character):
     def __init__(self, power, health, name, coins, armor):
-        super(Barbarian, self).__init__(power, health, name, coins, armor)
+        super().__init__(power, health, name, coins, armor)
 
     def attack(self, othercharater):
         self.power = random.randint(9, 22)
@@ -278,7 +299,7 @@ def main():
     print("You sense that this is a foe that you cannot defeat by conventional means")
     if displayStatus == True:
         print(spiderman.status())
-        print(goblinman.status())
+        print(zombieman.status())
         sleep(1)
     else:
         pass
