@@ -10,6 +10,13 @@ import hero_rpgART
 global displayStatus 
 displayStatus = False #This is the variable to enable the scouter
 
+global VCFlag1 #These are the Final Boss Question flags
+VCFlag1 = False
+global VCFlag2
+VCFlag2 = False
+global VCFlag3
+VCFlag3 = False
+
 
 class Character:
     def __init__(self, health, power, name, coins, armor):
@@ -108,17 +115,6 @@ class Shade(Character):
     def __init__(self, power, health, name, coins, armor):
         super().__init__(power, health, name, coins, armor)
 
-    # def ghastly(self, othercharacter):
-    #     dodgeChance = random.randint(1, 10)
-    #     if dodgeChance == 10:
-    #         self.health -= othercharacter.power
-    #         print("{} do {} damage to the {}.".format(self.name, self.power, othercharacter.name))
-    #     else:
-    #         if othercharacter.health <= 0:
-    #             print("{} has been slain!".format(othercharacter.name))
-    #         othercharacter.power = 0
-    #         print("{} swung and {} nimbly dodged the strike!".format(othercharacter.name, self.name))
-
 class Barbarian(Character):
     def __init__(self, power, health, name, coins, armor):
         super().__init__(power, health, name, coins, armor)
@@ -213,6 +209,7 @@ class Store:
         sleep(1)
         print("Will you approach it?\n")
         sleep(1)
+        hero_rpgART.smokestack()
         print("1. Approach")
         print("2. Remain in the forest")
         store_status = int(input())
@@ -230,6 +227,11 @@ bridgeboi = TheBridgekeeper(500, 75, "The Legendary Bridgekeeper of Kazadum", 90
 store = Store()
 
 def main():
+    print("You wake up, hanging upside down, you are the {}\n".format(spiderman.name))
+    hero_rpgART.spidermanART()
+    sleep(5)
+    print("With a crack, the tree branch that you were hanging to snaps and you plummet to the ground\n")
+    sleep(1)
     print("You stand alone, in the middle of a lightly dense forest of pine trees\n")
     sleep(1)
     print("You have no idea where you are, but you feel like you need to get out of this place as soon as you can\n")
@@ -270,6 +272,8 @@ def main():
             print("As this happens, you notice a red skull with a blue sickle on the back of {}\n".format(goblinman.name))
             sleep(1)
             print("You feel like this is important, but you are not sure why\n")
+            global VCFlag1
+            VCFlag1 = True
         elif raw_input == "5":
             if displayStatus == True:
                 print(spiderman.status())
@@ -335,6 +339,8 @@ def main():
                     sleep(1)
                     print("This could be valuable information, but you're not yet sure why\n")
                     sleep(1)
+                    global VCFlag2
+                    VCFlag2 = True
                     print("You decide there is no reason to linger around this foul thing anymore\n")
                     spiderman.coins += zombieman.coins
                     print("But not before relieving {} of his {} coins before he can get back to his feet\n".format(zombieman.name, zombieman.coins))
@@ -473,6 +479,8 @@ def main():
                 print("-rmoon\n")
                 sleep(3)
                 print("You connect the two phrases in your mind 'Silvermoon'\n")
+                global VCFlag3
+                VCFlag3 = True
                 sleep(2)
                 print("The shade attacks again\n")
                 shademan.attack(spiderman)
@@ -499,7 +507,7 @@ def main():
     sleep(1)
     print("Across his back is an axe almost as large as you\n")
     sleep(1)
-    print("{} roars at you".format(barbyman.name))
+    print("{} roars at you\n".format(barbyman.name))
     sleep(1)
     print("THIS IS MY FOREST, YOU WILL NOT DISTUB MY HOME\n")
     sleep(1)
@@ -625,11 +633,19 @@ def main():
                             raw_input = input()
                             if raw_input == "1":
                                 print("Once again you are correct!\n")
-                                sleep(2)
-                                print("You have answered all my questions correctly, you may pass on\n")
-                                sleep(1)
-                                print("{} motions you across\n".format(bridgeboi.name))
-                                break
+                                if (VCFlag1 == True) and (VCFlag2 == True) and (VCFlag3 == True):
+                                    sleep(2)
+                                    print("You have answered all my questions correctly, you may pass on\n")
+                                    sleep(1)
+                                    print("{} motions you across\n".format(bridgeboi.name))
+                                    break
+                                else:
+                                    print("However, you simply got lucky and guessed\n")
+                                    sleep(1)
+                                    print("There is no way that you figured all three of those out on your own!\n")
+                                    sleep(1)
+                                    print("And for your insolence, you will perish")
+                                    bridgeboi.attack(spiderman)
                             else:
                                 print("WRONG!")
                                 bridgeboi.attack(spiderman)
@@ -670,36 +686,6 @@ def main():
     sleep(2)
     print("YOU ARE VICTORIOUS\n")
     sleep(5)
-    print("""
-        
- +88_________________+880_______
-_+880_______________++80_______
-_++88______________+880________
-_++88_____________++88________
-__+880___________++88_________
-__+888_________++880__________
-__++880_______++880___________
-__++888_____+++880____________
-__++8888__+++8880++88_________
-__+++8888+++8880++8888________
-___++888++8888+++888888+80____
-___++88++8888++8888888++888___
-___++++++888888fx88888888888___
-____++++++88888888888888888___
-____++++++++000888888888888___
-_____+++++++00008f8888888888___
-______+++++++00088888888888___
-_______+++++++0888f8888888
-""")
-
+hero_rpgART.victoryART()
 
 main()
-
-# def attack(self, othercharacter):
-    #     self.damage = self.power * self.crit() - othercharacter.armor
-    #     othercharacter.health -= self.damage
-    #     print(f"{self.name} has dealt {self.damage} to {othercharacter.name}")
-    #     if othercharacter.health <= 0:
-    #         print(f"{othercharacter.name} has been slain!")
-    #         self.coins += othercharacter.coins
-    #         print(f"You loot through the body of {othercharacter.name} and scavange up {othercharater.coins} coins from their dead corpse")
