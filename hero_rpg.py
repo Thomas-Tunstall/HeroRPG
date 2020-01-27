@@ -53,7 +53,7 @@ class Hero(Character):
         critChance = random.randint(1, 5)
         if critChance == 2:
             print(f'{self.name} has landed a critical blow against!')
-            self.critDamage = self.power * 2
+            self.critDamage = 2
             return self.critDamage
         else:
             self.critDamage = 1
@@ -70,10 +70,17 @@ class Goblin(Character):
     pass
 
 class Zombie(Character):
+    def __init__(self, power, health, name, coins, armor):
+        super(Zombie, self).__init__(power, health, name, coins, armor)
+    
     def alive(self):
         return True
+    
 
 class Medic(Character):
+    def __init__(self, power, health, name, coins, armor):
+        super(Medic, self).__init__(power, health, name, coins, armor)
+
     def heal(self):
         healChance = random.randint(1, 5)
         if healChance == 5:
@@ -81,6 +88,9 @@ class Medic(Character):
             print('Blessed by RNGsus, the Medic has healed itself by 2!')
 
 class Shade(Character):
+    def __init__(self, power, health, name, coins, armor):
+        super(Shade, self).__init__(power, health, name, coins, armor)
+
     def ghastly(self, othercharater):
         dodgeChance = random.randint(1, 10)
         if dodgeChance == 10:
@@ -93,6 +103,9 @@ class Shade(Character):
             print("{} swung and {} nimbly dodged the strike!".format(othercharater.name, self.name))
 
 class Barbarian(Character):
+    def __init__(self, power, health, name, coins, armor):
+        super(Barbarian, self).__init__(power, health, name, coins, armor)
+
     def attack(self, othercharater):
         self.power = random.randint(9, 22)
         othercharater.health -= self.power
@@ -143,7 +156,7 @@ class Scouter: #Not Functioning Yet
         self.cost = 3
         self.name = "Scouter-Glass"
     def apply(self, character): #Enabling the scouter doesn't work
-        nonlocal displayStatus
+        global displayStatus
         displayStatus = True
         print("Your character can now view the power and health of themselves and your foe")
 
@@ -215,7 +228,7 @@ class Store:
 
 spiderman = Hero(100, 12, "Spiderman the Great", 5, 0)
 goblinman = Goblin(20, 7, "Goblinman the Foul", 8, 0)
-zombieman = Zombie(0, 7, "Zombieman the Invincible", 1000, 4)
+zombieman = Zombie(30, 7, "Zombieman the Invincible", 1000, 4)
 effinghealer = Medic(40, 6, "Leeroy Jenkins the NotMedic", 11, 3)
 shademan = Shade(1, 6, "Sylvannas the Tormented", 14, 0)
 barbyman = Barbarian(60, 0, "Barbarossa the Forsaken", 22, 2)
@@ -326,7 +339,7 @@ def main():
             print("Invalid input {}".format(raw_input))
 
             # zombieman.health >= 0:      
-        if spiderman.attack(zombieman):
+        if zombieman.health > 0:
             zombieman.attack(spiderman)
 
     store.go_shopping(spiderman)
@@ -336,10 +349,13 @@ def main():
     print("My name is {}, and I have no quarrel with you\n")
     sleep(1)
     print("That said, I will defend myself should you attack me\n")
-    print(spiderman.status())
-    sleep(0.5)
-    print(effinghealer.status())
-    sleep(0.5)
+    if displayStatus == True:
+        print(spiderman.status())
+        print(effinghealer.status())
+        sleep(1)
+    else:
+        pass
+    sleep(0.1)
     while spiderman.alive() and effinghealer.alive():
         print("What do you want to do?")
         print("1. Fight {}".format(effinghealer.name))
@@ -366,8 +382,15 @@ def main():
     print("Out of the treeline, a ghastly shade approaches")
     sleep(1)
     print("The shade is as black as the night sky")
-    print(spiderman.status())
-    print(shademan.status())
+    sleep(1)
+    print("You can feel the warmth in your face drain away- this is a foul creature")
+    sleep(1)
+    if displayStatus == True:
+        print(spiderman.status())
+        print(shademan.status())
+        sleep(1)
+    else:
+        pass
     sleep(1)
     while spiderman.alive() and shademan.alive():    
         print("What do you want to do?")
@@ -383,7 +406,6 @@ def main():
                 spiderman.attack(shademan)
             else: print("{} swung and {} nimbly dodged the strike!".format(shademan.name, spiderman.name))
 
-
         elif raw_input == "2":
             pass
         elif raw_input == "3":
@@ -397,10 +419,14 @@ def main():
 
     store.go_shopping(spiderman)
 
+    print("Intro text here")
     while spiderman.alive() and barbyman.alive():
-        print(spiderman.status())
-        print(barbyman.status())
-        print()
+        if displayStatus == True:
+            print(spiderman.status())
+            print(goblinman.status())
+            sleep(1)
+    else:
+        pass
         print("What do you want to do?")
         print("1. fight enemy")
         print("2. do nothing")
